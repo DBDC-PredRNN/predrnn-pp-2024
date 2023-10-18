@@ -24,10 +24,10 @@ tf.disable_v2_behavior()
 tf.app.flags.DEFINE_string('dataset_name', 'mnist',
                            'The name of dataset.')
 tf.app.flags.DEFINE_string('train_data_paths',
-                           'data/moving-mnist-example/moving-mnist-train.npz',
+                           '/app/input/dataset/dongmin/mnist/moving-mnist-example/moving-mnist-train.npz',
                            'train data paths.')
 tf.app.flags.DEFINE_string('valid_data_paths',
-                           'data/moving-mnist-example/moving-mnist-valid.npz',
+                           '/app/input/dataset/dongmin/mnist/moving-mnist-example/moving-mnist-valid.npz',
                            'validation data paths.')
 tf.app.flags.DEFINE_string('save_dir', 'checkpoints/mnist_predrnn_pp',
                             'dir to store trained net.')
