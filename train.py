@@ -16,7 +16,7 @@ from utils import metrics
 #from skimage.measure import compare_ssim 
 #compare_ssim was depricated
 from skimage.metrics import structural_similarity
-
+import csv
 # -----------------------------------------------------------------------------
 FLAGS = tf.app.flags.FLAGS
 tf.disable_v2_behavior()
@@ -24,14 +24,14 @@ tf.disable_v2_behavior()
 tf.app.flags.DEFINE_string('dataset_name', 'mnist',
                            'The name of dataset.')
 tf.app.flags.DEFINE_string('train_data_paths',
-                           '/app/input/dataset/dongmin/mnist/moving-mnist-example/moving-mnist-train.npz',
+                           '/data/songhune/data/moving-mnist-example/moving-mnist-train.npz',
                            'train data paths.')
 tf.app.flags.DEFINE_string('valid_data_paths',
-                           '/app/input/dataset/dongmin/mnist/moving-mnist-example/moving-mnist-valid.npz',
+                           '/data/songhune/data/moving-mnist-example/moving-mnist-valid.npz',
                            'validation data paths.')
-tf.app.flags.DEFINE_string('save_dir', 'checkpoints/mnist_predrnn_pp',
+tf.app.flags.DEFINE_string('save_dir', '/data/songhune/result/0326/checkpoints/mnist_predrnn_pp',
                             'dir to store trained net.')
-tf.app.flags.DEFINE_string('gen_frm_dir', 'results/mnist_predrnn_pp',
+tf.app.flags.DEFINE_string('gen_frm_dir', '/data/songhune/result/0326/results/mnist_predrnn_pp',
                            'dir to store result.')
 # model
 tf.app.flags.DEFINE_string('model_name', 'predrnn_pp',
@@ -98,7 +98,7 @@ class Model(object):
         num_hidden = [int(x) for x in FLAGS.num_hidden.split(',')]
         print(num_hidden)
         num_layers = len(num_hidden)
-        with tf.variable_scope(tf.get_variable_scope()):
+        with tf.compat.v1.variable_scope(tf.get_variable_scope()):
             # define a model
             output_list = models_factory.construct_model(
                 FLAGS.model_name, self.x,
@@ -148,6 +148,17 @@ class Model(object):
         self.saver.save(self.sess, checkpoint_path, global_step=itr)
         print('saved to ' + FLAGS.save_dir)
 
+#0326/한승현 save directory for the TESNSORBOARD results
+log_dir = '/data/songhune/tensorboard/0326/mnist_predrnn_pp/'
+os.makedirs(log_dir, exist_ok=True)
+numeric_dir = '/data/songhune/numerics/0326/mnist_predrnn_pp/'
+#0326/한승현 create a function to save the results to a csv file
+def save_results_to_text_file(file_path, metrics_names, metrics_values):
+    with open(file_path, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(metrics_names)
+        writer.writerow(metrics_values)
+
 def main(argv=None):
     #tf.disable_v2_behavior()
     if tf.gfile.Exists(FLAGS.save_dir):
@@ -169,7 +180,10 @@ def main(argv=None):
     delta = 0.00002
     base = 0.99998
     eta = 1
-
+    #0326/한승현 TESNSORBOARD writer
+    writer = tf.compat.v1.summary.FileWriter(log_dir)
+    writer.add_graph(tf.compat.v1.get_default_graph())
+    
     for itr in range(1, FLAGS.max_iterations + 1):
         if train_input_handle.no_batch_left():
             train_input_handle.begin(do_shuffle=True)
@@ -212,6 +226,10 @@ def main(argv=None):
         if itr % FLAGS.display_interval == 0:
             print('itr: ' + str(itr))
             print('training loss: ' + str(cost))
+          #0326/한승현 tensorboard writer for training loss
+            summary = tf.compat.v1.Summary()
+            summary.value.add(tag='Training Loss', simple_value=float(cost))
+            writer.add_summary(summary, itr)
 
         if itr % FLAGS.test_interval == 0:
             print('test...')
@@ -299,6 +317,13 @@ def main(argv=None):
             print('sharpness per frame: ' + str(np.mean(sharp)))
             for i in range(FLAGS.seq_length - FLAGS.input_length):
                 print(sharp[i])
+            os.makedirs(numeric_dir, exist_ok=True)
+            file_name = f'results_itr_{itr}.csv'
+            file_path = os.path.join(numeric_dir, file_name)
+            metrics_names = ['PSNR', 'FMAE', 'SSIM', 'Sharpness']
+            metrics_values = [psnr.tolist(), fmae.tolist(), ssim.tolist(), sharp.tolist()]
+            save_results_to_text_file(file_path, metrics_names, metrics_values)
+
 
         if itr % FLAGS.snapshot_interval == 0:
             model.save(itr)
