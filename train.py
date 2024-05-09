@@ -24,14 +24,14 @@ tf.disable_v2_behavior()
 tf.app.flags.DEFINE_string('dataset_name', 'mnist',
                            'The name of dataset.')
 tf.app.flags.DEFINE_string('train_data_paths',
-                           '/data/songhune/data/moving-mnist-example/moving-mnist-train.npz',
+                           '/home/work/example/moving-mnist-train.npz',
                            'train data paths.')
 tf.app.flags.DEFINE_string('valid_data_paths',
-                           '/data/songhune/data/moving-mnist-example/moving-mnist-valid.npz',
+                           '/home/work/example/moving-mnist-valid.npz',
                            'validation data paths.')
-tf.app.flags.DEFINE_string('save_dir', '/data/songhune/result/0326/checkpoints/mnist_predrnn_pp',
+tf.app.flags.DEFINE_string('save_dir', '/mnist_predrnn_pp',
                             'dir to store trained net.')
-tf.app.flags.DEFINE_string('gen_frm_dir', '/data/songhune/result/0326/results/mnist_predrnn_pp',
+tf.app.flags.DEFINE_string('gen_frm_dir', '/mnist_predrnn_pp',
                            'dir to store result.')
 # model
 tf.app.flags.DEFINE_string('model_name', 'predrnn_pp',
@@ -149,9 +149,9 @@ class Model(object):
         print('saved to ' + FLAGS.save_dir)
 
 #0326/한승현 save directory for the TESNSORBOARD results
-log_dir = '/data/songhune/tensorboard/0326/mnist_predrnn_pp/'
+log_dir = '/home/work/log/mnist_predrnn_pp/'
 os.makedirs(log_dir, exist_ok=True)
-numeric_dir = '/data/songhune/numerics/0326/mnist_predrnn_pp/'
+numeric_dir = '/home/work/outs/mnist_predrnn_pp/'
 #0326/한승현 create a function to save the results to a csv file
 def save_results_to_text_file(file_path, metrics_names, metrics_values):
     with open(file_path, 'w', newline='') as csvfile:
