@@ -24,14 +24,14 @@ tf.disable_v2_behavior()
 tf.app.flags.DEFINE_string('dataset_name', 'mnist',
                            'The name of dataset.')
 tf.app.flags.DEFINE_string('train_data_paths',
-                           '/home/work/songhune/moving-mnist-train.npz',
+                           '/home/work/songhune/kth/kth_train_fold_0.npz',
                            'train data paths.')
 tf.app.flags.DEFINE_string('valid_data_paths',
-                           '/home/work/songhube/moving-mnist-valid.npz',
+                           '/home/work/songhube/kth/kth_test_fold_0.npz',
                            'validation data paths.')
-tf.app.flags.DEFINE_string('save_dir', '/home/work/songhune/mnist_predrnn_pp',
+tf.app.flags.DEFINE_string('save_dir', '/home/work/songhune/kth',
                             'dir to store trained net.')
-tf.app.flags.DEFINE_string('gen_frm_dir', '/home/work/songhune/mnist_predrnn_pp',
+tf.app.flags.DEFINE_string('gen_frm_dir', '/home/work/songhune/kth',
                            'dir to store result.')
 # model
 tf.app.flags.DEFINE_string('model_name', 'predrnn_pp',
