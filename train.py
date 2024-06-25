@@ -42,8 +42,10 @@ tf.app.flags.DEFINE_integer('input_length', 10,
                             'encoder hidden states.')
 tf.app.flags.DEFINE_integer('seq_length', 20,
                             'total input and output length.')
-tf.app.flags.DEFINE_integer('img_width', 64,
+tf.app.flags.DEFINE_integer('img_width', 120,
                             'input image width.')
+tf,app.flags.DEFINE_integer('img_height', 160,
+                            'input image height.')
 tf.app.flags.DEFINE_integer('img_channel', 1,
                             'number of image channel.')
 tf.app.flags.DEFINE_integer('stride', 1,
