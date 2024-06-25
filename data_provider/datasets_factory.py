@@ -1,7 +1,10 @@
-from data_provider import mnist
+from data_provider import mnist, kth, climate, tosna
 
 datasets_map = {
     'mnist': mnist,
+    'kth': kth,
+    'climate': climate,
+    'tosna': tosna
 }
 
 def data_provider(dataset_name, train_data_paths, valid_data_paths, batch_size,
@@ -28,22 +31,22 @@ def data_provider(dataset_name, train_data_paths, valid_data_paths, batch_size,
     train_data_list = train_data_paths.split(',')
     valid_data_list = valid_data_paths.split(',')
 
-    if dataset_name == 'mnist':
-        test_input_param = {'paths': valid_data_list,
-                            'minibatch_size': batch_size,
-                            'input_data_type': 'float32',
-                            'is_output_sequence': True,
-                            'name': dataset_name+'test iterator'}
-        test_input_handle = datasets_map[dataset_name].InputHandle(test_input_param)
-        test_input_handle.begin(do_shuffle = False)
-        if is_training:
-            train_input_param = {'paths': train_data_list,
-                                 'minibatch_size': batch_size,
-                                 'input_data_type': 'float32',
-                                 'is_output_sequence': True,
-                                 'name': dataset_name+' train iterator'}
-            train_input_handle = datasets_map[dataset_name].InputHandle(train_input_param)
-            train_input_handle.begin(do_shuffle = True)
-            return train_input_handle, test_input_handle
-        else:
-            return test_input_handle
+    test_input_param = {'paths': valid_data_list,
+                        'minibatch_size': batch_size,
+                        'input_data_type': 'float32',
+                        'is_output_sequence': True,
+                        'name': dataset_name+' test iterator'}
+    test_input_handle = datasets_map[dataset_name].InputHandle(test_input_param)
+    test_input_handle.begin(do_shuffle=False)
+
+    if is_training:
+        train_input_param = {'paths': train_data_list,
+                             'minibatch_size': batch_size,
+                             'input_data_type': 'float32',
+                             'is_output_sequence': True,
+                             'name': dataset_name+' train iterator'}
+        train_input_handle = datasets_map[dataset_name].InputHandle(train_input_param)
+        train_input_handle.begin(do_shuffle=True)
+        return train_input_handle, test_input_handle
+    else:
+        return test_input_handle
