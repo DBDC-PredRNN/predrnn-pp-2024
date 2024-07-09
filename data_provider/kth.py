@@ -49,7 +49,7 @@ class InputHandle:
             self.current_batch_size = self.total() - self.current_position
         self.current_batch_indices = self.indices[self.current_position:self.current_position + self.current_batch_size]
         self.current_input_length = max(self.data['clips'][ind, 1] for ind in self.current_batch_indices)
-        self.current_output_length = self.current_input_length  # 맞는 방식으로 수정
+        self.current_output_length = self.current_input_length
 
     def next(self):
         self.current_position += self.current_batch_size
@@ -61,7 +61,7 @@ class InputHandle:
             self.current_batch_size = self.total() - self.current_position
         self.current_batch_indices = self.indices[self.current_position:self.current_position + self.current_batch_size]
         self.current_input_length = max(self.data['clips'][ind, 1] for ind in self.current_batch_indices)
-        self.current_output_length = self.current_input_length  # 맞는 방식으로 수정
+        self.current_output_length = self.current_input_length
 
     def no_batch_left(self):
         return self.current_position >= self.total() - self.current_batch_size
@@ -112,7 +112,7 @@ class InputHandle:
                 output_batch[i, :data_slice.shape[0], :, :, :] = data_slice
             else:
                 data_slice = raw_dat[begin, :, :, :]
-                if output_batch[i].shape == data_slice.shape:
+                if data_slice.shape[0] == output_batch.shape[1]:
                     output_batch[i] = data_slice
                 else:
                     output_batch[i, :data_slice.shape[0], :, :, :] = data_slice
