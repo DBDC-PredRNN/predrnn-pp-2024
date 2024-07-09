@@ -83,25 +83,15 @@ class InputHandle:
         input_batch = np.zeros(
             (self.current_batch_size, self.current_input_length) +
             tuple(self.data['dims'][0])).astype(self.input_data_type)
-        input_batch = np.transpose(input_batch, (0, 1, 3, 4, 2))
+        input_batch = np.transpose(input_batch,(0,1,3,4,2))
         for i in range(self.current_batch_size):
             batch_ind = self.current_batch_indices[i]
             begin = self.data['clips'][0, batch_ind, 0]
             end = self.data['clips'][0, batch_ind, 0] + \
-                self.data['clips'][0, batch_ind, 1]
+                    self.data['clips'][0, batch_ind, 1]
             data_slice = self.data['input_raw_data'][begin:end, :, :, :]
-            data_slice = np.transpose(data_slice, (0, 2, 3, 1))
-            
-            # Check if the data_slice length matches the expected input length
-            if data_slice.shape[0] > self.current_input_length:
-                data_slice = data_slice[:self.current_input_length]
-            elif data_slice.shape[0] < self.current_input_length:
-                data_slice_padded = np.zeros((self.current_input_length,) + data_slice.shape[1:], dtype=self.input_data_type)
-                data_slice_padded[:data_slice.shape[0]] = data_slice
-                data_slice = data_slice_padded
-
+            data_slice = np.transpose(data_slice,(0,2,3,1))
             input_batch[i, :self.current_input_length, :, :, :] = data_slice
-
         input_batch = input_batch.astype(self.input_data_type)
         return input_batch
 
