@@ -8,7 +8,7 @@ datasets_map = {
 }
 
 def data_provider(dataset_name, train_data_paths, valid_data_paths, batch_size,
-                  img_width, is_training=True):
+                  img_width,img_height, is_training=True):
     '''Given a dataset name and returns a Dataset.
     Args:
         dataset_name: String, the name of the dataset.
