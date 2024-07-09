@@ -42,8 +42,10 @@ tf.app.flags.DEFINE_integer('input_length', 10,
                             'encoder hidden states.')
 tf.app.flags.DEFINE_integer('seq_length', 20,
                             'total input and output length.')
-tf.app.flags.DEFINE_integer('img_width', 64,
+tf.app.flags.DEFINE_integer('img_width', 120,
                             'input image width.')
+tf,app.flags.DEFINE_integer('img_height', 160,
+                            'input image height.')
 tf.app.flags.DEFINE_integer('img_channel', 1,
                             'number of image channel.')
 tf.app.flags.DEFINE_integer('stride', 1,
@@ -188,6 +190,7 @@ def main(argv=None):
         if train_input_handle.no_batch_left():
             train_input_handle.begin(do_shuffle=True)
         ims = train_input_handle.get_batch()
+        #이 코드가 왜 있는가? -> 주어진 이미지를 패치 단위로 처리하려고(전처리하려고...) 하기 때문
         ims = preprocess.reshape_patch(ims, FLAGS.patch_size)
 
         if itr < 50000:
@@ -258,6 +261,7 @@ def main(argv=None):
 
                 # concat outputs of different gpus along batch
                 img_gen = np.concatenate(img_gen)
+                #그러고 나서 여기서 다시 원래 이미지로 복원
                 img_gen = preprocess.reshape_patch_back(img_gen, FLAGS.patch_size)
                 # MSE per frame
                 for i in range(FLAGS.seq_length - FLAGS.input_length):
