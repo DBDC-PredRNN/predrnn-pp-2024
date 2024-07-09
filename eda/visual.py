@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 # .npz 파일 로드
-file_path = '/Users/songhune/Downloads/data/kth/kth_train_fold_0.npz'
+file_path = '/Users/songhune/Downloads/data/kth/test.npz'
 data = np.load(file_path)
 
 # 데이터 요약 함수

@@ -9,7 +9,7 @@ class InputHandle:
         self.input_data_type = input_param.get('input_data_type', 'float32')
         self.output_data_type = input_param.get('output_data_type', 'float32')
         self.minibatch_size = input_param['minibatch_size']
-        self.is_output_sequence = input_param['is_output_sequence']
+        self.is_output_sequence = input_param.get('is_output_sequence', False)
         self.data = {}
         self.indices = {}
         self.current_position = 0
@@ -49,6 +49,7 @@ class InputHandle:
             self.current_batch_size = self.total() - self.current_position
         self.current_batch_indices = self.indices[self.current_position:self.current_position + self.current_batch_size]
         self.current_input_length = max(self.data['clips'][ind, 1] for ind in self.current_batch_indices)
+        self.current_output_length = max(self.data['clips'][ind, 1] for ind in self.current_batch_indices)  # 맞는 방식으로 수정
 
     def next(self):
         self.current_position += self.current_batch_size
@@ -60,6 +61,7 @@ class InputHandle:
             self.current_batch_size = self.total() - self.current_position
         self.current_batch_indices = self.indices[self.current_position:self.current_position + self.current_batch_size]
         self.current_input_length = max(self.data['clips'][ind, 1] for ind in self.current_batch_indices)
+        self.current_output_length = max(self.data['clips'][ind, 1] for ind in self.current_batch_indices)  # 맞는 방식으로 수정
 
     def no_batch_left(self):
         return self.current_position >= self.total() - self.current_batch_size
@@ -121,4 +123,3 @@ class InputHandle:
         output_seq = self.output_batch()
         batch = np.concatenate((input_seq, output_seq), axis=1)
         return batch
-
