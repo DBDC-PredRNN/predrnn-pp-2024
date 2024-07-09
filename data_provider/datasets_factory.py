@@ -1,10 +1,10 @@
-from data_provider import mnist, kth, climate, tosna
+from data_provider import mnist, kth #, climate, tosna
 
 datasets_map = {
     'mnist': mnist,
     'kth': kth,
-    'climate': climate,
-    'tosna': tosna
+    # 'climate': climate,
+    # 'tosna': tosna
 }
 
 def data_provider(dataset_name, train_data_paths, valid_data_paths, batch_size,

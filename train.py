@@ -21,13 +21,13 @@ import csv
 FLAGS = tf.app.flags.FLAGS
 tf.disable_v2_behavior()
 # data I/O
-tf.app.flags.DEFINE_string('dataset_name', 'mnist',
+tf.app.flags.DEFINE_string('dataset_name', 'kth',
                            'The name of dataset.')
 tf.app.flags.DEFINE_string('train_data_paths',
-                           '/home/work/songhune/kth/kth_train_fold_0.npz',
+                           '/home/work/songhune/data/train.npz',
                            'train data paths.')
 tf.app.flags.DEFINE_string('valid_data_paths',
-                           '/home/work/songhube/kth/kth_test_fold_0.npz',
+                           '/home/work/songhune/data/test.npz',
                            'validation data paths.')
 tf.app.flags.DEFINE_string('save_dir', '/home/work/songhune/kth',
                             'dir to store trained net.')
@@ -44,7 +44,7 @@ tf.app.flags.DEFINE_integer('seq_length', 20,
                             'total input and output length.')
 tf.app.flags.DEFINE_integer('img_width', 120,
                             'input image width.')
-tf,app.flags.DEFINE_integer('img_height', 160,
+tf.app.flags.DEFINE_integer('img_height', 160,
                             'input image height.')
 tf.app.flags.DEFINE_integer('img_channel', 1,
                             'number of image channel.')
