@@ -82,14 +82,14 @@ class Model(object):
                                 [FLAGS.batch_size,
                                  None,  # Use None for dynamic sequence length
                                  FLAGS.img_width // FLAGS.patch_size,
-                                 FLAGS.img_width // FLAGS.patch_size,
+                                 FLAGS.img_height // FLAGS.patch_size,
                                  FLAGS.patch_size * FLAGS.patch_size * FLAGS.img_channel])
 
         self.mask_true = tf.placeholder(tf.float32,
                                         [FLAGS.batch_size,
                                          None,  # Use None for dynamic sequence length
                                          FLAGS.img_width // FLAGS.patch_size,
-                                         FLAGS.img_width // FLAGS.patch_size,
+                                         FLAGS.img_height // FLAGS.patch_size,
                                          FLAGS.patch_size * FLAGS.patch_size * FLAGS.img_channel])
 
         grads = []
