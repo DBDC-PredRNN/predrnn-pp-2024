@@ -1,11 +1,12 @@
-from data_provider import mnist, kth #, climate, tosna
+from data_provider import kth_legacy, mnist #, climate, tosna
 
 datasets_map = {
     'mnist': mnist,
-    'kth': kth,
+    'kth': kth_legacy,
     # 'climate': climate,
     # 'tosna': tosna
 }
+
 
 def data_provider(dataset_name, train_data_paths, valid_data_paths, batch_size,
                   img_width,img_height, is_training=True):
@@ -16,6 +17,7 @@ def data_provider(dataset_name, train_data_paths, valid_data_paths, batch_size,
         valid_data_paths: List, [val_data_path1, val_data_path2...]
         batch_size: Int
         img_width: Int
+        img_height: Int
         is_training: Bool
     Returns:
         if is_training:
