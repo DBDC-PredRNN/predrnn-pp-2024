@@ -126,8 +126,8 @@ class Model(object):
                 self.mask_true,
                 num_layers, num_hidden,
                 FLAGS.filter_size, FLAGS.stride,
-                None,  # Use None for dynamic sequence length
-                FLAGS.input_length,
+                self.input_handle.data['clips'][1], 
+                self.input_handle.data[],
                 FLAGS.layer_norm)
             gen_ims = output_list[0]
             loss = output_list[1]

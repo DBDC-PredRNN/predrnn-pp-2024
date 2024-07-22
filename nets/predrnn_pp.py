@@ -1,6 +1,6 @@
 __author__ = 'yunbo'
 
-import tensorflow as tf
+#import tensorflow as tf
 import tensorflow.compat.v1 as tf
 from layers.GradientHighwayUnit import GHU as ghu
 from layers.CausalLSTMCell import CausalLSTMCell as cslstm
