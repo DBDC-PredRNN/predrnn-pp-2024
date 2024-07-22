@@ -24,14 +24,36 @@ tf.disable_v2_behavior()
 tf.app.flags.DEFINE_string('dataset_name', 'kth',
                            'The name of dataset.')
 tf.app.flags.DEFINE_string('train_data_paths',
-                           '/home/work/songhune/data/train.npz',
+                           # macOS
+                           '/Users/songhune/Downloads/data/kth_preprocessed/train/train_dataset_1.npz',
+                           # NIPA
+                           #'/home/work/songhune/data/train.npz',
+                           # docker
+                           #'/home/work/songhune/data/train.npz',
                            'train data paths.')
 tf.app.flags.DEFINE_string('valid_data_paths',
-                           '/home/work/songhune/data/test.npz',
+                           # macOS
+                           '/Users/songhune/Downloads/data/kth_preprocessed/validation/validation_dataset_1.npz',
+                           # NIPA
+                           #'/home/work/songhune/data/train.npz',
+                           # docker
+                           #'/home/work/songhune/data/train.npz',
                            'validation data paths.')
-tf.app.flags.DEFINE_string('save_dir', '/home/work/songhune/kth',
+tf.app.flags.DEFINE_string('save_dir', 
+                           # macOS
+                           '/Users/songhune/Downloads/results',
+                           # NIPA
+                           #'/home/work/songhune/data/train.npz',
+                           # docker
+                           #'/home/work/songhune/data/train.npz',,
                             'dir to store trained net.')
-tf.app.flags.DEFINE_string('gen_frm_dir', '/home/work/songhune/kth',
+tf.app.flags.DEFINE_string('gen_frm_dir', 
+                           # macOS
+                           '/Users/songhune/Downloads/results',
+                           # NIPA
+                           #'/home/work/songhune/data/train.npz',
+                           # docker
+                           #'/home/work/songhune/data/train.npz',
                            'dir to store result.')
 # model
 tf.app.flags.DEFINE_string('model_name', 'predrnn_pp',
@@ -144,10 +166,10 @@ class Model(object):
         checkpoint_path = os.path.join(FLAGS.save_dir, 'model.ckpt')
         self.saver.save(self.sess, checkpoint_path, global_step=itr)
         print('saved to ' + FLAGS.save_dir)
-#0326/한승현 save directory for the TESNSORBOARD results
-log_dir = '/home/work/log/mnist_predrnn_pp/'
-os.makedirs(log_dir, exist_ok=True)
-numeric_dir = '/home/work/outs/mnist_predrnn_pp/'
+# #0326/한승현 save directory for the TESNSORBOARD results
+# log_dir = '/home/work/log/mnist_predrnn_pp/'
+# os.makedirs(log_dir, exist_ok=True)
+# numeric_dir = '/home/work/outs/mnist_predrnn_pp/'
 #0326/한승현 create a function to save the results to a csv file
 def save_results_to_text_file(file_path, metrics_names, metrics_values):
     with open(file_path, 'w', newline='') as csvfile:
